@@ -7,6 +7,9 @@ on:
     types: [ closed ]
     branches: [ main ]
 
+permissions:
+  contents: write  # This is required for creating releases
+
 jobs:
   auto-release:
     # Only run this job if the PR was merged (not just closed) or if it was a direct push to main
@@ -51,8 +54,7 @@ jobs:
             echo "tag_exists=false" >> $GITHUB_OUTPUT
             echo "Tag $TAG does not exist, will create release"
           fi
-      
-      - name: Create Release
+        - name: Create Release
         if: steps.check_tag.outputs.tag_exists == 'false'
         uses: softprops/action-gh-release@v1
         with:
@@ -74,5 +76,3 @@ jobs:
             ```
           draft: false
           prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
