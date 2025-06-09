@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "neurokit"
+version = "0.1.0"
+authors = [
+  {name = "Pinter Andrea", email = "your.email@example.com"}
+]
+description = "A lightweight neural network library for Python"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "numpy>=1.19.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/yourusername/neurokit"
+"Bug Tracker" = "https://github.com/yourusername/neurokit/issues"
