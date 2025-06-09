@@ -8,7 +8,7 @@ on:
     branches: [ main ]
 
 permissions:
-  contents: write  # This is required for creating releases
+  contents: write
 
 jobs:
   auto-release:
@@ -54,7 +54,8 @@ jobs:
             echo "tag_exists=false" >> $GITHUB_OUTPUT
             echo "Tag $TAG does not exist, will create release"
           fi
-        - name: Create Release
+          
+      - name: Create Release
         if: steps.check_tag.outputs.tag_exists == 'false'
         uses: softprops/action-gh-release@v1
         with:
