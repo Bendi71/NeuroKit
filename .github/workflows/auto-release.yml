@@ -1,0 +1,68 @@
+name: Auto Release
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    types: [ closed ]
+    branches: [ main ]
+
+jobs:
+  auto-release:
+    # Only run this job if the PR was merged (not just closed) or if it was a direct push to main
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.merged == true)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Extract version
+        id: extract_version
+        run: |
+          VERSION=$(python -c "import sys; sys.path.insert(0, '.'); from __init__ import __version__; print(__version__)")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Extracted version: $VERSION"
+      
+      - name: Check if tag exists
+        id: check_tag
+        run: |
+          TAG="v${{ steps.extract_version.outputs.version }}"
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "tag_exists=true" >> $GITHUB_OUTPUT
+            echo "Tag $TAG already exists, will not create release"
+          else
+            echo "tag_exists=false" >> $GITHUB_OUTPUT
+            echo "Tag $TAG does not exist, will create release"
+          fi
+      
+      - name: Create Release
+        if: steps.check_tag.outputs.tag_exists == 'false'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ steps.extract_version.outputs.version }}
+          name: NeuroKit v${{ steps.extract_version.outputs.version }}
+          body: |
+            # NeuroKit v${{ steps.extract_version.outputs.version }}
+            
+            Automatic release from latest changes to the main branch.
+            
+            ## What's Changed
+            
+            ${{ github.event.head_commit.message || github.event.pull_request.title }}
+            
+            ## Installation
+            
+            ```bash
+            pip install git+https://github.com/${{ github.repository }}.git@v${{ steps.extract_version.outputs.version }}
+            ```
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
