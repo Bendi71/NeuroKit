@@ -1,8 +1,9 @@
 import numpy as np
 
-from ML.NeuroKit.activation import Activation
+from .activation import Activation
 from .layer import Layer
 
+# FIXME: Fix backward propagation for Conv
 
 class Conv(Layer):
     def __init__(self, input_shape: tuple[int, int, int], kernel_size: int, depth: int, activation: Activation):

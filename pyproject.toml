@@ -4,9 +4,9 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "neurokit"
-version = "0.1.0"
+version = "0.1.1"
 authors = [
-  {name = "Pinter Andrea", email = "your.email@example.com"}
+  {name = "Horvath Bendeguz", email = "horvath.bobek@gmail.com"}
 ]
 description = "A lightweight neural network library for Python"
 readme = "README.md"
@@ -23,5 +23,5 @@ dependencies = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/yourusername/neurokit"
-"Bug Tracker" = "https://github.com/yourusername/neurokit/issues"
+"Homepage" = "https://github.com/Bendi71/NeuroKit"
+"Bug Tracker" = "https://github.com/Bendi71/NeuroKit/issues"

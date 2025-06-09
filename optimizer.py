@@ -30,8 +30,8 @@ class Adam:
 
         self.t += 1
 
-        self.m = self.beta1 * self.m + (1 - self.beta1) * grads
-        self.v = self.beta2 * self.v + (1 - self.beta2) * (grads ** 2)
+        self.m = self.beta1 * self.m + (1 - self.beta1) * grads # type: ignore
+        self.v = self.beta2 * self.v + (1 - self.beta2) * (grads ** 2) # type: ignore
 
         m_hat = self.m / (1 - self.beta1 ** self.t)
         v_hat = self.v / (1 - self.beta2 ** self.t)

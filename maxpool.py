@@ -2,6 +2,7 @@ import numpy as np
 
 from .layer import Layer
 
+# FIXME: Fix backward propagation for MaxPooling
 
 class MaxPooling(Layer):
     def __init__(self, pool_size: int, stride: int):
