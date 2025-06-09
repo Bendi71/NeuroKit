@@ -21,12 +21,22 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
-
+          python-version: '3.10'      
+      
       - name: Extract version
         id: extract_version
         run: |
-          VERSION=$(python -c "import sys; sys.path.insert(0, '.'); from __init__ import __version__; print(__version__)")
+          # Try to extract version using grep
+          VERSION=$(grep -oP '__version__ = "\K[^"]+' __init__.py)
+          # If that fails, try a simpler approach
+          if [ -z "$VERSION" ]; then
+            VERSION=$(grep "__version__" __init__.py | cut -d '"' -f 2)
+          fi
+          # If we still don't have a version, use a default
+          if [ -z "$VERSION" ]; then
+            VERSION="0.1.0"
+            echo "Warning: Could not extract version, using default $VERSION"
+          fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Extracted version: $VERSION"
       
